@@ -3,6 +3,10 @@
 	"displayName": "haskell-interactive",
 	"publisher": "rutger-de-jong",
 	"description": "Simple extension to easily execute Haskell code from a .hs file",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/rutgerdj/haskell-interactive.git"
+	},
 	"version": "0.0.1",
 	"engines": {
 		"vscode": "^1.46.0"
