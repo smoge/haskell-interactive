@@ -7,7 +7,7 @@
 		"type": "git",
 		"url": "https://github.com/rutgerdj/haskell-interactive.git"
 	},
-	"version": "0.1.0",
+	"version": "0.2.0",
 	"engines": {
 		"vscode": "^1.46.0"
 	},
@@ -50,7 +50,7 @@
 				}
 			}
 		},
-		"keybindings":[
+		"keybindings": [
 			{
 				"command": "haskell-interactive.run_haskel_terminal",
 				"key": "shift+enter",
