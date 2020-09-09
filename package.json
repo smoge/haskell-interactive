@@ -7,7 +7,7 @@
 		"type": "git",
 		"url": "https://github.com/rutgerdj/haskell-interactive.git"
 	},
-	"version": "0.0.1",
+	"version": "0.1.0",
 	"engines": {
 		"vscode": "^1.46.0"
 	},
@@ -19,33 +19,33 @@
 	],
 	"main": "./out/extension.js",
 	"contributes": {
-		"configuration":{
+		"configuration": {
 			"title": "haskell-interactive",
-			"properties":{
-				"haskell-interactive.returnFocus":{
-					"type":"string",
+			"properties": {
+				"haskell-interactive.returnFocus": {
+					"type": "string",
 					"enum": [
 						"editor",
 						"terminal"
 					],
-					"default":"editor",
-					"description":"Toggles whether to return focus to the editor or to the terminal after the command is finished"
+					"default": "editor",
+					"description": "Toggles whether to return focus to the editor or to the terminal after the command is finished"
 				},
-				"haskell-interactive.targetFile":{
-					"type":"string",
-					"default":"main",
-					"description":"Target filename for the compiled program"
+				"haskell-interactive.targetFile": {
+					"type": "string",
+					"default": "main",
+					"description": "Target filename for the compiled program"
 				},
-				"haskell-interactive.excludedFunctionNames":{
-					"type":"array",
-					"default":[
+				"haskell-interactive.excludedFunctionNames": {
+					"type": "array",
+					"default": [
 						"import"
 					],
 					"description": "Function names to exclude when looking for multiline functions. (Ghci can't handle multiple import statements for example)"
 				},
-				"haskell-interactive.testFolder":{
-					"type":"string",
-					"default":"tests",
+				"haskell-interactive.testFolder": {
+					"type": "string",
+					"default": "tests",
 					"description": "Name of the folder to search for input files that are fed into the compiled program."
 				}
 			}
@@ -65,7 +65,6 @@
 			}
 		]
 	},
-
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
 		"compile": "tsc -p ./",
