@@ -42,6 +42,11 @@
 						"import"
 					],
 					"description": "Function names to exclude when looking for multiline functions. (Ghci can't handle multiple import statements for example)"
+				},
+				"haskell-interactive.testFolder":{
+					"type":"string",
+					"default":"tests",
+					"description": "Name of the folder to search for input files that are fed into the compiled program."
 				}
 			}
 		},

@@ -31,8 +31,11 @@ export function activate(context: vscode.ExtensionContext) {
 		}
 		let filename = editor.document.fileName;
 		let dirname = path.dirname(filename);
+		let config = vscode.workspace.getConfiguration("haskell-interactive");
+		let testsFolder = config.get("testFolder") as string;
+		let testsPath = path.join(dirname, testsFolder);
 
-		vscode.workspace.fs.readDirectory(vscode.Uri.file(dirname)).then((x) => {
+		vscode.workspace.fs.readDirectory(vscode.Uri.file(testsPath)).then((x) => {
 
 			let files = x.map(x => x[0]);
 			files = files.filter(x => x.endsWith(".in"));
@@ -46,8 +49,9 @@ export function activate(context: vscode.ExtensionContext) {
 				terminal.sendText(`cd ${dirname}`);
 				let name = x?.replace(".in", "");
 
-				let config = vscode.workspace.getConfiguration();
-				let targetFile = config.get("haskell-interactive.targetFile") as string;
+				let targetFile = config.get("targetFile") as string;
+
+				name = path.join(testsFolder, name);
 
 				terminal.sendText(`./${targetFile} < ${name}.in > ${name}.out 2>&1`);
 
@@ -73,6 +77,7 @@ export function activate(context: vscode.ExtensionContext) {
 			let excludedFunctions = vscode.workspace.getConfiguration("haskell-interactive").get("excludedFunctionNames") as Array<string>;
 
 			var selection = findMultiLines(editor);
+			console.log(selection);
 			if (selection.max - selection.min === 0 || excludedFunctions.indexOf(parts[0]) >= 0) {
 				var text = editor.document.lineAt(editor.selection.start.line).text;
 				sendTextToGhci(text, terminal, false);
@@ -142,7 +147,7 @@ function findMultiLines(editor: vscode.TextEditor) {
 		var line = editor.document.lineAt(min).text;
 		let startWithTab = line.startsWith(" ".repeat(tabsize));
 
-		if (!startWithTab) {
+		if (!startWithTab || line === "") {
 			break;
 		}
 		min--;
@@ -150,7 +155,8 @@ function findMultiLines(editor: vscode.TextEditor) {
 	var max = start;
 	while (max < editor.document.lineCount - 1) {
 		var line = editor.document.lineAt(max + 1).text;
-		if (!line.startsWith(" ".repeat(tabsize))) {
+		let startWithTab = line.startsWith(" ".repeat(tabsize));
+		if (!startWithTab || line === "") {
 			break;
 		}
 		max++;
@@ -161,17 +167,20 @@ function findMultiLines(editor: vscode.TextEditor) {
 		let funcName = parts[0];
 
 		while (min > 0) {
-			let line = editor.document.lineAt(min - 1).text.split(" ");
+			let line = editor.document.lineAt(min - 1).text;
+			if (line === "") { break; }
 
-			if (line.length > 1 && line[0] !== funcName) {
-				break;
-			}
+			let parts = line.split(" ");
+			if (parts.length > 1 && parts[0] !== funcName) { break; }
+
 			min--;
 		}
+		
 		while (max < editor.document.lineCount - 1) {
 			let line = editor.document.lineAt(max + 1).text;
-			let parts = line.split(" ");
+			if (line === "") { break; }
 
+			let parts = line.split(" ");
 			if ((parts.length > 1 && parts[0] !== funcName) && (!line.startsWith(" ".repeat(tabsize)))) {
 				break;
 			}
