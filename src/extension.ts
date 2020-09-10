@@ -38,9 +38,9 @@ export function activate(context: vscode.ExtensionContext) {
 		vscode.workspace.fs.readDirectory(vscode.Uri.file(testsPath)).then((x) => {
 
 			let files = x.map(x => x[0]);
-			files = files.filter(x => x.endsWith(".in"));
+			let inFiles = files.filter(x => x.endsWith(".in"));
 
-			vscode.window.showQuickPick(files, { placeHolder: "Select an input file:" }).then((x) => {
+			vscode.window.showQuickPick(inFiles, { placeHolder: "Select an input file:" }).then((x) => {
 				if (!x) {
 					return;
 				}
@@ -54,8 +54,12 @@ export function activate(context: vscode.ExtensionContext) {
 				name = path.join(testsFolder, name);
 
 				terminal.sendText(`./${targetFile} < ${name}.in > ${name}.out 2>&1`);
+				if (files.indexOf(`${path.basename(name)}.exp`) >= 0){
+					terminal.sendText(`code --diff ${name}.out ${name}.exp`);
+				}else{
+					terminal.sendText(`code ${name}.out`);
+				}
 
-				terminal.sendText(`code --diff ${name}.out ${name}.exp`);
 			});
 
 		});
@@ -77,7 +81,7 @@ export function activate(context: vscode.ExtensionContext) {
 			let excludedFunctions = vscode.workspace.getConfiguration("haskell-interactive").get("excludedFunctionNames") as Array<string>;
 
 			var selection = findMultiLines(editor);
-			console.log(selection);
+
 			if (selection.max - selection.min === 0 || excludedFunctions.indexOf(parts[0]) >= 0) {
 				var text = editor.document.lineAt(editor.selection.start.line).text;
 				sendTextToGhci(text, terminal, false);
