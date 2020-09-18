@@ -33,7 +33,10 @@ export function activate(context: vscode.ExtensionContext) {
 		let dirname = path.dirname(filename);
 		let config = vscode.workspace.getConfiguration("haskell-interactive");
 		let testsFolder = config.get("testFolder") as string;
-		let testsPath = path.join(dirname, testsFolder);
+		if (path.basename(dirname) === testsFolder){
+			dirname = path.dirname(dirname);
+		}
+		let testsPath =path.join(dirname, testsFolder);
 
 		vscode.workspace.fs.readDirectory(vscode.Uri.file(testsPath)).then((x) => {
 
@@ -53,7 +56,8 @@ export function activate(context: vscode.ExtensionContext) {
 
 				name = path.join(testsFolder, name);
 
-				terminal.sendText(`./${targetFile} < ${name}.in > ${name}.out 2>&1`);
+				// terminal.sendText(`./${targetFile} < ${name}.in > ${name}.out 2>&1`);
+				terminal.sendText(`cat ${name}.in | ./${targetFile} > ${name}.out 2>&1`);
 				if (files.indexOf(`${path.basename(name)}.exp`) >= 0){
 					terminal.sendText(`code --diff ${name}.out ${name}.exp`);
 				}else{
@@ -123,7 +127,13 @@ function returnFocus(){
 }
 
 function getTerminal(name: string = "haskell-interactive") {
-	var terminal = vscode.window.terminals.filter((x) => x.name === name)[0];
+	let config = vscode.workspace.getConfiguration("haskell-interactive")
+	if (config.get("findSharedTerminals")){
+		var terminal = vscode.window.terminals.filter((x) => x.name.replace(" [Shared]", "") === name)[0];
+	}else{
+		var terminal = vscode.window.terminals.filter((x) => x.name === name)[0];
+	}
+	
 	if (!terminal) {
 		terminal = vscode.window.createTerminal(name);
 		if (name === "haskell-interactive") {

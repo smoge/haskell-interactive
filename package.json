@@ -15,7 +15,8 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onLanguage:haskell"
+		"onLanguage:haskell",
+		"onCommand:haskell-interactive.run_test"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -47,6 +48,11 @@
 					"type": "string",
 					"default": "tests",
 					"description": "Name of the folder to search for input files that are fed into the compiled program."
+				},
+				"haskell-interactive.findSharedTerminals": {
+					"type": "boolean",
+					"default": true,
+					"description": "Toggles whether to find shared terminals"
 				}
 			}
 		},
