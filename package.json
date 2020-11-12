@@ -7,7 +7,7 @@
 		"type": "git",
 		"url": "https://github.com/rutgerdj/haskell-interactive.git"
 	},
-	"version": "0.4.0",
+	"version": "0.5.0",
 	"engines": {
 		"vscode": "^1.46.0"
 	},
@@ -54,9 +54,9 @@
 					"default": true,
 					"description": "Toggles whether to find shared terminals"
 				},
-				"haskell-interactive.ghciLaunchCommand":{
-					"type":"string",
-					"default":"ghci",
+				"haskell-interactive.ghciLaunchCommand": {
+					"type": "string",
+					"default": "ghci",
 					"description": "The command to use to launch the ghci terminal"
 				}
 			}
