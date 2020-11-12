@@ -53,6 +53,11 @@
 					"type": "boolean",
 					"default": true,
 					"description": "Toggles whether to find shared terminals"
+				},
+				"haskell-interactive.ghciLaunchCommand":{
+					"type":"string",
+					"default":"ghci",
+					"description": "The command to use to launch the ghci terminal"
 				}
 			}
 		},

@@ -127,7 +127,7 @@ function returnFocus(){
 }
 
 function getTerminal(name: string = "haskell-interactive") {
-	let config = vscode.workspace.getConfiguration("haskell-interactive")
+	let config = vscode.workspace.getConfiguration("haskell-interactive");
 	if (config.get("findSharedTerminals")){
 		var terminal = vscode.window.terminals.filter((x) => x.name.replace(" [Shared]", "") === name)[0];
 	}else{
@@ -137,7 +137,8 @@ function getTerminal(name: string = "haskell-interactive") {
 	if (!terminal) {
 		terminal = vscode.window.createTerminal(name);
 		if (name === "haskell-interactive") {
-			terminal.sendText("ghci");
+			let command = config.get("ghciLaunchCommand") as string ;
+			terminal.sendText(command);
 		}
 	}
 	terminal.show();
