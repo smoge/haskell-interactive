@@ -7,7 +7,7 @@
 		"type": "git",
 		"url": "https://github.com/rutgerdj/haskell-interactive.git"
 	},
-	"version": "0.5.0",
+	"version": "0.7.0",
 	"engines": {
 		"vscode": "^1.46.0"
 	},
