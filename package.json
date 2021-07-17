@@ -15,8 +15,7 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onLanguage:haskell",
-		"onCommand:haskell-interactive.run_test"
+		"onLanguage:haskell"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -32,22 +31,12 @@
 					"default": "editor",
 					"description": "Toggles whether to return focus to the editor or to the terminal after the command is finished"
 				},
-				"haskell-interactive.targetFile": {
-					"type": "string",
-					"default": "main",
-					"description": "Target filename for the compiled program"
-				},
 				"haskell-interactive.excludedFunctionNames": {
 					"type": "array",
 					"default": [
 						"import"
 					],
 					"description": "Function names to exclude when looking for multiline functions. (Ghci can't handle multiple import statements for example)"
-				},
-				"haskell-interactive.testFolder": {
-					"type": "string",
-					"default": "tests",
-					"description": "Name of the folder to search for input files that are fed into the compiled program."
 				},
 				"haskell-interactive.findSharedTerminals": {
 					"type": "boolean",
@@ -72,14 +61,6 @@
 			{
 				"command": "haskell-interactive.run_haskell_terminal",
 				"title": "Haskell: Run selection/line in terminal (GHCI)"
-			},
-			{
-				"command": "haskell-interactive.compile_program",
-				"title": "Haskell: build current file"
-			},
-			{
-				"command": "haskell-interactive.run_test",
-				"title": "Haskell: runs test for compiled Haskell program"
 			}
 		]
 	},

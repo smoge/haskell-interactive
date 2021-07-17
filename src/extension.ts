@@ -5,70 +5,6 @@ import { kMaxLength } from 'buffer';
 export function activate(context: vscode.ExtensionContext) {
 
 
-	let compile_haskell = vscode.commands.registerCommand("haskell-interactive.compile_program", () => {
-		let editor = vscode.window.activeTextEditor;
-		if (!editor) {
-			return;
-		}
-
-		let filename = editor.document.fileName;
-		let dirname = path.dirname(filename);
-		let terminal = getTerminal("run_tests");
-		terminal.sendText(`cd ${dirname}`);
-
-		let config = vscode.workspace.getConfiguration();
-		let targetFile = config.get("haskell-interactive.targetFile") as string;
-		terminal.sendText(`ghc --make ${filename} -no-keep-o-files -no-keep-hi-files -o ${path.join(dirname, targetFile)}`);
-
-		returnFocus();
-
-	});
-
-	let run_tests = vscode.commands.registerCommand("haskell-interactive.run_test", () => {
-		let editor = vscode.window.activeTextEditor;
-		if (!editor) {
-			return;
-		}
-		let filename = editor.document.fileName;
-		let dirname = path.dirname(filename);
-		let config = vscode.workspace.getConfiguration("haskell-interactive");
-		let testsFolder = config.get("testFolder") as string;
-		if (path.basename(dirname) === testsFolder){
-			dirname = path.dirname(dirname);
-		}
-		let testsPath =path.join(dirname, testsFolder);
-
-		vscode.workspace.fs.readDirectory(vscode.Uri.file(testsPath)).then((x) => {
-
-			let files = x.map(x => x[0]);
-			let inFiles = files.filter(x => x.endsWith(".in"));
-
-			vscode.window.showQuickPick(inFiles, { placeHolder: "Select an input file:" }).then((x) => {
-				if (!x) {
-					return;
-				}
-
-				let terminal = getTerminal("run_tests");
-				terminal.sendText(`cd ${dirname}`);
-				let name = x?.replace(".in", "");
-
-				let targetFile = config.get("targetFile") as string;
-
-				name = path.join(testsFolder, name);
-
-				// terminal.sendText(`./${targetFile} < ${name}.in > ${name}.out 2>&1`);
-				terminal.sendText(`cat ${name}.in | ./${targetFile} > ${name}.out 2>&1`);
-				if (files.indexOf(`${path.basename(name)}.exp`) >= 0){
-					terminal.sendText(`code --diff ${name}.out ${name}.exp`);
-				}else{
-					terminal.sendText(`code ${name}.out`);
-				}
-
-			});
-
-		});
-	});
-
 	let run_haskell_terminal = vscode.commands.registerCommand('haskell-interactive.run_haskell_terminal', () => {
 
 		var editor = vscode.window.activeTextEditor;
@@ -111,8 +47,6 @@ export function activate(context: vscode.ExtensionContext) {
 		returnFocus();
 
 	});
-	context.subscriptions.push(run_tests);
-	context.subscriptions.push(compile_haskell);
 	context.subscriptions.push(run_haskell_terminal);
 }
 
@@ -203,7 +137,6 @@ function findMultiLines(editor: vscode.TextEditor) {
 		}
 	}
 
-	// console.log(editor.document.lineAt(min - 1).text);
 	return { "min": min, "max": max };
 }
 
