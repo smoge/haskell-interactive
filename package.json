@@ -63,14 +63,14 @@
 		},
 		"keybindings": [
 			{
-				"command": "haskell-interactive.run_haskel_terminal",
+				"command": "haskell-interactive.run_haskell_terminal",
 				"key": "shift+enter",
 				"when": "editorFocus && editorLangId == 'haskell'"
 			}
 		],
 		"commands": [
 			{
-				"command": "haskell-interactive.run_haskel_terminal",
+				"command": "haskell-interactive.run_haskell_terminal",
 				"title": "Haskell: Run selection/line in terminal (GHCI)"
 			},
 			{

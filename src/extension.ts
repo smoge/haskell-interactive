@@ -69,7 +69,7 @@ export function activate(context: vscode.ExtensionContext) {
 		});
 	});
 
-	let run_haskell_terminal = vscode.commands.registerCommand('haskell-interactive.run_haskel_terminal', () => {
+	let run_haskell_terminal = vscode.commands.registerCommand('haskell-interactive.run_haskell_terminal', () => {
 
 		var editor = vscode.window.activeTextEditor;
 
