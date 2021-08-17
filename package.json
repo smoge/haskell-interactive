@@ -7,13 +7,14 @@
 		"type": "git",
 		"url": "https://github.com/rutgerdj/haskell-interactive.git"
 	},
-	"version": "0.8.0",
+	"version": "0.8.1",
 	"engines": {
 		"vscode": "^1.46.0"
 	},
 	"categories": [
 		"Other"
 	],
+	"icon": "images/hi_logo_128.png",
 	"activationEvents": [
 		"onLanguage:haskell"
 	],
